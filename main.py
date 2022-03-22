@@ -16,39 +16,25 @@ async def on_ready():
     print("Bot has started!!")
     print("Token used" + token)
 
-def isp(arg):
+def json1(arg):
     response = requests.get(api + arg)
     json_data = json.loads(response.text)
-    ip = json_data['isp']
-    return(ip)
-def country(arg):
-    response = requests.get(api + arg)
-    json_data = json.loads(response.text)
-    ip = json_data['country']
-    return(ip)
-def city(arg):
-    response = requests.get(api + arg)
-    json_data = json.loads(response.text)
-    ip = json_data['city']
-    return(ip)
-def asn(arg):
-    response = requests.get(api + arg)
-    json_data = json.loads(response.text)
-    ip = json_data['as']
-    return(ip)
+    return(json_data)
+
 
 @bot.command()
 async def ip(ctx, arg):
-    isp1 = isp(arg)
-    country1 = country(arg)
-    city1 = city(arg)
-    as1 = asn(arg)
+    json2 = json1(arg)
+    isp = json2['isp']
+    country = json2['country']
+    city = json2['city']
+    asn = json2['as']
     embed = discord.Embed(color=0xffffff)
     embed.set_author(name="IP lookup", icon_url="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Globe_icon_2.svg/800px-Globe_icon_2.svg.png")
-    embed.add_field(name="ISP:", value=isp1, inline=False)
-    embed.add_field(name="country:", value=country1, inline=False)
-    embed.add_field(name="city:", value=city1, inline=False)
-    embed.add_field(name="as:", value=as1, inline=False)
+    embed.add_field(name="ISP:", value=isp, inline=False)
+    embed.add_field(name="country:", value=country, inline=False)
+    embed.add_field(name="city:", value=city, inline=False)
+    embed.add_field(name="as:", value=asn, inline=False)
     embed.set_footer(text="Information requested by: {}".format(ctx.author.display_name))
     await ctx.send(embed=embed)
 
